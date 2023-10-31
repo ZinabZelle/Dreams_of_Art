@@ -12,11 +12,19 @@ class Artwork:
             "Year" : self.year
         }
         return artwork_info
+    
+    def update_info(self, new_title, new_artist, new_year):
+        self.title = new_title
+        self.artist = new_artist
+        self.year = new_year
 
-    def display_info(self):
-        info = self.get_info()
-        for key, value in info.items():
-            print(f"{key}: {value}")
+    def get_age(self, current_year) :
+        age = current_year - self.year
+        return age
+
+    def is_contemporary(self, current_year, threshold):
+        return self.year >= (current_year - threshold)  
+
        
 
         
