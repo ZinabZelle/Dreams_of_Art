@@ -1,8 +1,3 @@
-#La methode d'annulation ( method override) est utilisee ici.
-#Dans la sous-classe (par exemple, Painting ou sculpture), la methode get_info de la classe de base (Artwork) est remlacee par 
-#implementation specifique a la sous-classe, qui combine les informations de la classe de base et les attributs specifiques a la sous-classe
-#(dans ce cas, le style de la peinture pour Painting).
-
 class Artwork:
     def __init__ ( self, title, artist, year ): 
         self.title = title
@@ -27,12 +22,14 @@ class Artwork:
 
     def get_age(self, current_year) :
         # Cette methode calcule et retourne l'age de l'oeuvre en fonction de l'annee actuelle.
-        age = current_year - self.year
-        return age
+        return current_year - self.year
+        
 
     def is_contemporary(self, current_year, threshold):
         # cette methode determine si l'oeuvre est contemporaine en fonction d'une annee seuil.
-        return self.year >= (current_year - threshold)  
+        return self.year >= current_year - threshold 
+    
+
 
        
 
