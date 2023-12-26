@@ -1,53 +1,37 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
+from main.Artwork import Artwork
 import json
 
 app = Flask(__name__)
 
-class Painting:
-    def __init__(self, title, artist, year_created,painting_style):
-        self.title = title
-        self.artist = artist
-        self.year_created = year_created
-        self.painting_style = painting_style
+class PaintingManager:
+    def __init__(self):
+        self.paintings = self.load_data()
 
-    def get_info(self):
-        return {
-            "Title": self.title,
-            "Artist": self.artist,
-            "Year_created": self.year_created,
-            "Painting_style": self.painting_style,
-        }
-    
-def load_paintings():
-    with open("paintings.json", "r") as f:
-        global paintings_data
-        paintings_data = json.load(f)
-app.before_request(load_paintings)
+    def load_data(self):
+        with open('data/paintings.json', 'r') as file:
+            paintings_data = json.load(file)
 
-@app.route("/artwork/paintings/<name>", methods=["GET"])
-def get_painting(name):
-    painting_found = False
-    painting_info = None
+        paintings = [Artwork(**{k: v for k, v in painting.items() if k != "painting_style"}) for painting in paintings_data]
 
-    for painting_data in paintings_data:
-        if painting_data["title"] == name:
-            painting_found = True
+        return paintings
 
-            # Création directe de l'objet Painting :
-            painting_obj = Painting(
-                title=painting_data["title"],
-                artist=painting_data["artist"],
-                year_created=painting_data["year_created"],
-                painting_style=painting_data["painting_style"],
-            )
+    def get_painting_by_name(self, name):
+        for painting in self.paintings:
+            if painting.title == name:
+                return painting
+        return None
 
-            painting_info = painting_obj.get_info()
-            break
+painting_manager = PaintingManager()
 
-    if painting_found:
-        return jsonify(painting_info)
+@app.route('/artwork/paintings/<name>', methods=['GET'])
+def get_painting_info(name):
+    painting = painting_manager.get_painting_by_name(name)
+
+    if painting:
+        return jsonify(painting.get_info())
     else:
-        return jsonify({"message": "item not found"})     
+        return jsonify({'message': 'Item not found'})
 
-if __name__ == "__main__":
-    app.run(host="localhost", port=8888)     
+if __name__ == '__main__':
+    app.run(port=8888)
