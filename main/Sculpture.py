@@ -1,14 +1,16 @@
-from Artwork import Artwork
 
-class sculpture(Artwork):
-    def __init__ (self, title, artist, year, material, dimensions):
-        super(). __init__(title, artist, year)
-        self.material = material
-        self.dimensions = dimensions
+from main.Artwork import Artwork
+
+class Sculpture(Artwork):
+    def __init__(self, title, artist, year_created, sculpture_material):
+        super().__init__(title, artist, year_created)
+        self.sculpture_material = sculpture_material
 
     def get_info(self):
         artwork_info = super().get_info()
-        artwork_info["Material"] = self.material
-        artwork_info["Dimensions"] = self.dimensions
+        artwork_info["Sculpture Material"] = self.sculpture_material
         return artwork_info
+
+
+
     
