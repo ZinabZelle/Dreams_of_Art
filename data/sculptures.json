@@ -1,0 +1,20 @@
+[
+  {
+    "title": "David",
+    "artist": "Michelangelo",
+    "year_created": 1504,
+    "sculpture_material": "Marble"
+  },
+  {
+    "title": "The Thinker",
+    "artist": "Auguste Rodin",
+    "year_created": 1889,
+    "sculpture_material": "Bronze"
+  },
+  {
+    "title": "The Kiss",
+    "artist": "Auguste Rodin",
+    "year_created": 1889,
+    "sculpture_material": "Marble"
+  }
+]

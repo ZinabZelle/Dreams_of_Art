@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Starry Night",
+        "artist": "Vincent van Gogh",
+        "year": 1889,
+        "painting_style": "Post-Impressionism"
+    },
+    {
+        "title": "Mona Lisa",
+        "artist": "Leonardo da Vinci",
+        "year":1503,
+        "painting_style": "Renaissance" 
+    },
+    {
+        "title": "The Persistence of Memory",
+        "artist": "Salvador Dali",
+        "year":1931,
+        "painting_style": "Surrealism"
+    }
+    
+
+]
