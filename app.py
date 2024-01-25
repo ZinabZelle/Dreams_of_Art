@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask import request
 from main.Artwork import Artwork
 from main.Sculpture import Sculpture
 import json
@@ -22,6 +23,15 @@ class PaintingManager:
             if painting.title == name:
                 return painting
         return None
+    
+    def add_painting(self, painting):
+        self.paintings.append(painting)
+        self.save_data()
+
+    def delete_painting(self, painting):
+        self.paintings.remove(painting)
+        self.save_data() 
+
 
 painting_manager = PaintingManager()
 
@@ -63,6 +73,37 @@ def get_sculpture_info(name):
         return jsonify(sculpture.get_info())
     else:
         return jsonify({'message': 'Sculpture not found'})
+    
+@app.route('/artwork/paintings', methods=['POST'])
+def add_painting():
+    data = request.get_json()
+    title = data.get('title')
+    artist = data.get('artist')
+    year = data.get('year')
+
+    if not title or not artist or not year:
+        return jsonify({'message': 'Incomplete data'}), 400
+
+    existing_painting = painting_manager.get_painting_by_name(title)
+    if existing_painting:
+        return jsonify({'message': 'This painting already exists. Use the update method to modify it.'}), 409
+
+    new_painting = Artwork(title, artist, year)
+    painting_manager.add_painting(new_painting)
+
+    return jsonify({'message': 'Painting added successfully'}), 201
+
+
+@app.route('/artwork/paintings/<name>', methods=['DELETE'])
+def delete_painting(name):
+    painting = painting_manager.get_painting_by_name(name)
+
+    if painting:
+        painting_manager.delete_painting(painting)
+        return jsonify({'message': 'Painting deleted successfully'}), 200
+    else:
+        return jsonify({'message': 'Painting not found'}), 404
+
 
 if __name__ == '__main__':
     app.run(port=8888)
